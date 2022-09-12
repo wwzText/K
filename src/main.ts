@@ -12,8 +12,8 @@ import ActiveItem from '@/components/activeItem.vue';
 import LabelInput from '@/components/labelInput.vue';
 import TipContent from '@/components/tipContent.vue';
 
-import Vconsole from 'vconsole'
-let vConsole = new Vconsole()
+// import Vconsole from 'vconsole'
+// let vConsole = new Vconsole()
 
 import 'vant/es/notify/style';
 

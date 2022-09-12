@@ -54,11 +54,11 @@ const number = ref(0);
 
 const hanbdleRecharge = async () => {
     state.rechargeLoading = true;
-    // if (number.value < 50) {
-    //     Notify({ type: "danger", message: "充币金额不能小于50USDT" });
-    //     state.rechargeLoading = false;
-    //     return;
-    // }
+    if (number.value < 50) {
+        Notify({ type: "danger", message: "充币金额不能小于50USDT" });
+        state.rechargeLoading = false;
+        return;
+    }
 
     let canRecharge = await Request({
         url: "collect/collect_add_status",
@@ -79,14 +79,13 @@ const hanbdleRecharge = async () => {
 
     let result = await sendTransaction(number.value, userInfo.from_address);
     state.rechargeLoading = false;
-    console.log('result', result)
 
     if (result) {
-        console.log('执行post提交', {
-            address: userInfo.address,
-            coin_num: number.value,
-            hash: result
-        })
+        // console.log('执行post提交', {
+        //     address: userInfo.address,
+        //     coin_num: number.value,
+        //     hash: result
+        // })
         let postResult = await Request({
             url: "collect/collect_add",
             data: {
