@@ -97,6 +97,7 @@ const hanbdleRecharge = async () => {
             method: "post"
         })
         number.value = 0;
+        state.rechargeLoading = false;
         if (postResult === '') {
             Notify({
                 type: "success",
