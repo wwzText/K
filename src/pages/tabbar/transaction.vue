@@ -82,7 +82,7 @@
                                 <van-icon></van-icon>
                                 {{state.coinDetail.new_price}}
                             </span>
-                            <span class="coin-change-ratio">+{{state.coinDetail.p}}%</span>
+                            <span class="coin-change-ratio">+{{Number(state.coinDetail.p) * 100}}%</span>
                         </div>
                         <span class="ratio-rmb">¥{{state.coinDetail.coin_cny}}</span>
                         <div class="increase-item">
