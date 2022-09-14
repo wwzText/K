@@ -135,14 +135,10 @@ enum KChooseItem {
 const state = reactive({
     coinDetail: {} as bibiCoinDetail,
     kCanvasIndex: '1',
-    kTabIndex: 2,
+    kTabIndex: 0,
     pkData: [] as pkItem[],
     orderList: [] as orderItem[],
     showMoreK: false
-})
-
-onMounted(() => {
-    getCoinDetail()
 })
 
 const getCoinDetail = async () => {
@@ -155,6 +151,10 @@ const getCoinDetail = async () => {
     })
 }
 
+onMounted(() => {
+    getCoinDetail()
+})
+
 
 // 获取K线图数据
 const getKData = async () => {
@@ -166,60 +166,120 @@ const getKData = async () => {
         }
     })
     const charDom = document.getElementById("KCanvas");
-    let myChart = echarts.init(charDom as HTMLElement);
 
-    let XData = [] as string[];
-    let YData = [] as [string, string, string, string][];
+    let myChart = echarts.init(charDom as HTMLElement);
+    type KPrice = string | number
+    let KSeriesData: [KPrice, KPrice, KPrice, KPrice][] = []
+    //  [
+    //     ['1', '2', '3', '4'],
+    //     ['4.2', '1', '3', '1'],
+    //     ['3', '26', '31', '2.4'],
+    //     ['4.2', '10', '13', '1'],
+    //     [2.3, '21', '3', '4'],
+    //     ['4.2', '1', '3', '4'],
+    //     ['22', '12', '22', '4'],
+    //     ['22', '12', '31', '9']
+    // ]
+    let categoryData: any[] = []
     result.forEach((item: KItem) => {
-        XData.push(formatTime(item.start_time));
-        YData.push([
-            item.open_price,
-            item.close_price,
-            item.min_price,
-            item.max_price
-        ])
+        categoryData.push(formatTime(item.start_time));
+        KSeriesData.push([item.open_price, item.close_price, item.min_price, item.max_price])
     })
 
     let option = {
-        title: {
-            text: KChooseItem[Number(state.kCanvasIndex)] + '图',
-            top: 20,
-            textStyle: {
-                fontSize: 12
+        animation: true,
+        grid: [
+            {
+                left: '10%',
+                right: '8%',
+                height: '50%'
+            },
+            {
+                left: '10%',
+                right: '8%',
+                top: '63%',
+                height: '16%'
             }
-        },
-        xAxis: {
+        ],
+        xAxis: [{
             type: 'category',
-            data: XData,
+            data: categoryData,
             boundaryGap: false,
             axisLine: { onZero: false },
             splitLine: { show: false },
-            rotate: 45
-        },
-        yAxis: {
-            scale: true,
-            splitArea: {
-                show: true
+            min: 'dataMin',
+            max: 'dataMax',
+            axisPointer: {
+                z: 0
             }
-        },
+        }, {
+            type: 'category',
+            gridIndex: 1,
+            data: categoryData,
+            boundaryGap: false,
+            axisLine: { onZero: false },
+            axisTick: { show: false },
+            splitLine: { show: false },
+            axisLabel: { show: false },
+            min: 'dataMin',
+            max: 'dataMax'
+        }],
+        yAxis: [
+            {
+                scale: true,
+                splitArea: {
+                    show: true
+                }
+            },
+            {
+                scale: true,
+                gridIndex: 1,
+                splitNumber: 2,
+            }
+        ],
+        dataZoom: [
+            {
+                type: 'inside',
+                xAxisIndex: [0, 5],
+                start: 0,
+                end: 100
+            },
+            {
+                show: true,
+                xAxisIndex: [0, 5],
+                type: 'slider',
+                top: '85%',
+                start: 0,
+                end: 100
+            }
+        ],
         series: [
             {
-                name: "12",
+                name: 'Dow-Jones index',
                 type: 'candlestick',
-                data: YData,
-                markPoint: {
-                    label: 1
-                },
+                data: KSeriesData,
                 itemStyle: {
-                    color: "#05AD8E",
-                    color0: "#FE0000",
-                    borderColor: "#05AD8E",
-                    borderColor0: "#FE0000"
+                    color: '#05AD8E',
+                    color0: '#FE0000',
+                    borderColor: undefined,
+                    borderColor0: undefined
                 },
-            }
+                tooltip: {
+                    formatter: function (param: any) {
+                        param = param[0];
+                        return [
+                            'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
+                            'Open: ' + param.data[0] + '<br/>',
+                            'Close: ' + param.data[1] + '<br/>',
+                            'Lowest: ' + param.data[2] + '<br/>',
+                            'Highest: ' + param.data[3] + '<br/>'
+                        ].join('');
+                    }
+                }
+            },
         ]
-    };
-    myChart.setOption(option)
+    }
+    myChart.setOption(option, true)
 }
 
 
@@ -278,6 +338,12 @@ watch(() => state.kCanvasIndex, () => getKData())
     flex: 1;
     padding-left: 2rem;
     border-left: 1px solid @border-color;
+}
+
+.van-popover {
+    background-color: red !important;
+    display: flex;
+    flex-direction: column;
 }
 
 .page-main {

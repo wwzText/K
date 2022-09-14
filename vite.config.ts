@@ -4,7 +4,7 @@ import path from 'path';
 import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
-
+import alias from "@rollup/plugin-alias";
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
@@ -15,6 +15,7 @@ export default defineConfig({
   },
 
   plugins: [
+    alias(),
     vue(),
     Components({
       resolvers: [VantResolver()],
