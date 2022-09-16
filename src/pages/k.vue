@@ -134,7 +134,7 @@ enum KChooseItem {
 }
 const state = reactive({
     coinDetail: {} as bibiCoinDetail,
-    kCanvasIndex: '1',
+    kCanvasIndex: '7',
     kTabIndex: 0,
     pkData: [] as pkItem[],
     orderList: [] as orderItem[],
@@ -429,11 +429,7 @@ watch(() => state.kCanvasIndex, () => getKData())
         }
     }
 
-    .popover-span {
-        display: block;
-        padding: 1.2rem .8rem;
-    }
-
+   
     .canvas {
         flex: 1;
         display: flex;

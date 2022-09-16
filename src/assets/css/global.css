@@ -21,3 +21,8 @@ html,
     padding: 0 .5rem;
     box-sizing: border-box;
 }
+
+.popover-span {
+    display: block;
+    padding: 1.2rem .8rem;
+}
