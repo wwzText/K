@@ -207,6 +207,7 @@ const getIndexInfo = async (coinIndex: number) => {
         num5: result.num5,
         num6: result.num6,
     };
+    console.log(result.first_address)
     userInfoStore.$patch({
         user_level: result.user_level,
         usdt_coin: result.usdt_coin,

@@ -24,7 +24,7 @@
             </van-popover> -->
         </div>
 
-        <LabelInput label="提现地址" v-model="state.chooseAddress" placeholder="请输入地址">
+        <!-- <LabelInput label="提现地址" v-model="state.chooseAddress" placeholder="请输入地址">
             <template v-slot:afterSlot>
                 <van-popover placement="bottom-end" v-model:show="state.showChooseAddressPopover" theme="dark">
                     <div>
@@ -37,7 +37,7 @@
                     </template>
                 </van-popover>
             </template>
-        </LabelInput>
+        </LabelInput> -->
         <LabelInput label="提现数量" v-model="state.withdrawalNum" placeholder="请输入提现数量">
             <template v-slot:afterSlot>
                 <span @click="state.withdrawalNum = state.coinDetail.user_usdt_coin" class="all-out">全部</span>
@@ -84,7 +84,7 @@ const state = reactive({
     addrssList: [] as AddressItem[],
     // showChooseCoinPopover: false,
     showChooseAddressPopover: false,
-    chooseAddress: '',
+    // chooseAddress: '',
     withdrawalNum: 0 as string | number,
     coinDetail: {} as bibiCoinDetail,
     daozhang: 0,
@@ -128,16 +128,16 @@ const getAddressList = async () => {
 }
 const handleWithdrawal = async () => {
     state.withdrawalLoading = true;
-    if (!web3.utils.isAddress(state.chooseAddress)) {
-        state.withdrawalLoading = false;
-        Notify({ type: "danger", message: "请输入正确的提币地址" });
-        return
-    }
-    if (!state.chooseAddress) {
-        state.withdrawalLoading = false;
-        Notify({ type: "danger", message: "请输入或选择提币地址" });
-        return
-    }
+    // if (!web3.utils.isAddress(state.chooseAddress)) {
+    //     state.withdrawalLoading = false;
+    //     Notify({ type: "danger", message: "请输入正确的提币地址" });
+    //     return
+    // }
+    // if (!state.chooseAddress) {
+    //     state.withdrawalLoading = false;
+    //     Notify({ type: "danger", message: "请输入或选择提币地址" });
+    //     return
+    // }
     if (state.daozhang === 0) {
         state.withdrawalLoading = false;
         Notify({ type: "danger", message: "请输入提币金额" });
@@ -156,7 +156,7 @@ const handleWithdrawal = async () => {
     let result = await Request({
         url: "btc/withdrawals",
         data: {
-            to_address: state.chooseAddress,
+            // to_address: state.chooseAddress,
             transf_value: state.withdrawalNum,
             pay_pwd: state.pwd,
             pay_type: "USDT",

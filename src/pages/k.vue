@@ -182,8 +182,8 @@ const getKData = async () => {
     // ]
     let categoryData: any[] = []
     result.forEach((item: KItem) => {
-        categoryData.push(formatTime(item.start_time));
-        KSeriesData.push([item.open_price, item.close_price, item.min_price, item.max_price])
+        categoryData.unshift(formatTime(item.start_time));
+        KSeriesData.unshift([item.open_price, item.close_price, item.min_price, item.max_price])
     })
 
     let option = {
@@ -191,12 +191,12 @@ const getKData = async () => {
         grid: [
             {
                 left: '10%',
-                right: '8%',
+                right: '3%',
                 height: '50%'
             },
             {
                 left: '10%',
-                right: '8%',
+                right: '3%',
                 top: '63%',
                 height: '16%'
             }
@@ -218,7 +218,7 @@ const getKData = async () => {
             data: categoryData,
             boundaryGap: false,
             axisLine: { onZero: false },
-            axisTick: { show: false },
+            axisTick: { show: true },
             splitLine: { show: false },
             axisLabel: { show: false },
             min: 'dataMin',
@@ -240,22 +240,59 @@ const getKData = async () => {
         dataZoom: [
             {
                 type: 'inside',
-                xAxisIndex: [0, 5],
+                xAxisIndex: [0, 100],
                 start: 0,
                 end: 100
             },
             {
-                show: true,
-                xAxisIndex: [0, 5],
+                show: false,
+                xAxisIndex: [0, 100],
                 type: 'slider',
                 top: '85%',
                 start: 0,
                 end: 100
             }
         ],
+        legend: {
+            bottom: 10,
+            left: 'center',
+            // data: ['开盘价', '收盘价', '最低价', '最高价']
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            },
+            borderWidth: 1,
+            borderColor: '#ccc',
+            padding: 10,
+            textStyle: {
+                color: '#000'
+            },
+            position: function (pos: number[], params: unknown, el: unknown, elRect: unknown, size: {
+                viewSize: number[]
+            }) {
+
+                const obj: any = {
+                    top: 10
+                };
+                obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                return obj;
+            },
+            formatter: (param: any) => {
+                console.log(param)
+                let arr: string[] = [];
+                param.forEach((item: any, index: number) => {
+                    if(index !== 0) {
+                        arr.push(`${item.seriesName}：${item.value}<br />`)
+                    }
+                })
+                return arr.join('');
+            }
+            // extraCssText: 'width: 170px'
+        },
         series: [
             {
-                name: 'Dow-Jones index',
                 type: 'candlestick',
                 data: KSeriesData,
                 itemStyle: {
@@ -263,21 +300,26 @@ const getKData = async () => {
                     color0: '#FE0000',
                     borderColor: undefined,
                     borderColor0: undefined
-                },
-                tooltip: {
-                    formatter: function (param: any) {
-                        param = param[0];
-                        return [
-                            'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
-                            'Open: ' + param.data[0] + '<br/>',
-                            'Close: ' + param.data[1] + '<br/>',
-                            'Lowest: ' + param.data[2] + '<br/>',
-                            'Highest: ' + param.data[3] + '<br/>'
-                        ].join('');
-                    }
                 }
-            },
-        ]
+            }, {
+                name: '开盘价',
+                type: "line",
+                data: KSeriesData.map(item => item[0]),
+            }, {
+                name: '收盘价',
+                type: "line",
+                data: KSeriesData.map(item => item[1]),
+            }, {
+                name: '最低价',
+                type: "line",
+                data: KSeriesData.map(item => item[2]),
+            }, {
+                name: '最高价',
+                type: "line",
+                data: KSeriesData.map(item => item[3]),
+            }
+        ],
+
     }
     myChart.setOption(option, true)
 }
@@ -429,7 +471,7 @@ watch(() => state.kCanvasIndex, () => getKData())
         }
     }
 
-   
+
     .canvas {
         flex: 1;
         display: flex;

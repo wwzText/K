@@ -15,7 +15,7 @@
         <van-cell size="large" @click="toHelp" title="帮助中心" icon="envelop-o" is-link />
         <van-cell size="large" @click="contactUs" title="联系我们" icon="service-o" is-link />
         <van-cell size="large" title="推荐人">
-            {{hiddenAddress(userInfoStore.$state.first_address)}}
+            {{hiddenAddress(userInfoStore.first_address)}}
         </van-cell>
     </div>
 </template>

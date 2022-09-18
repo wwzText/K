@@ -16,6 +16,7 @@ import TipContent from '@/components/tipContent.vue';
 // let vConsole = new Vconsole()
 
 import 'vant/es/notify/style';
+import 'vant/es/dialog/style';
 
 let _app = createApp(App);
 

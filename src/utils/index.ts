@@ -40,6 +40,7 @@ export const copyText = (text: string | number) => {
 
 // 隐藏中间地址
 export const hiddenAddress = (address: string) => {
+    address = address || "";
     let arr = address.split('');
     arr.splice(8, arr.length - 16, '****');
     return arr.join('')
