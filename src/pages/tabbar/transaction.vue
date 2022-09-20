@@ -246,7 +246,7 @@ const getCoinList = async (type: number) => {
 }
 
 const getTransactionOrderList = async () => {
-    state.orderList = await Request({
+    let result = await Request({
         url: "buy/buy_coin_order_list",
         data: {
             address: userInfo.address,
@@ -255,6 +255,7 @@ const getTransactionOrderList = async () => {
             num: 5
         }
     })
+    state.orderList = result.filter((item: orderItem) => item.status == 1)
     state.otherOrderList = await Request({
         url: "buy/buy_coin_order_list",
         data: {

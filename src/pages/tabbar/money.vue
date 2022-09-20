@@ -93,7 +93,7 @@ const seeCoinList = (item: coinItem) => {
         path: "/flowingWater",
         query: {
             coin: item.coin_name,
-            title: item.coin_name + '流水'
+            title: item.coin_name + '流水',
         }
     })
 }

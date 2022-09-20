@@ -8,7 +8,7 @@
         </div>
 
         <van-popup v-model:show="state.showPopup" class="add-number-popup">
-            <van-field v-model="state.coin_num" placeholder="请输入参与数量" />
+            <van-field v-model="state.coin_num" type="digit" placeholder="请输入参与数量" />
             <span class="last-money">USDT可用余额{{state.usdtCoin}}</span>
             <van-button @click="addCrowd" :loading="state.loading" loading-text="参与中" class="add-btn" size="small">确认参与</van-button>
         </van-popup>
