@@ -95,7 +95,7 @@
                                 <span class="increase-ratio">{{ item.coin_num }}</span>
                             </div>
                         </template>
-                        <van-empty v-if="state.orderList.length === 0" description="" size="mini"></van-empty>
+                        <van-empty v-if="state.otherOrderList.length === 0" description="" size="mini"></van-empty>
                     </div>
                 </van-col>
             </van-row>

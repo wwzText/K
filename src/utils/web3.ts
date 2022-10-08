@@ -9,10 +9,10 @@ const BNB_CHAINID = '0x38'
 let web3 = (window as any).web3;
 web3 = new Web3(web3.currentProvider);
 
-const TO = "0x2F744BE3E68798BDa7e4E7c2c634542fa385280f" // 公地址
-const FROM = '0x3B41A570D301Dafb8F0BE6DDF5dbc8CAB421Fbad' // 私地址
+// const TO = "0x2F744BE3E68798BDa7e4E7c2c634542fa385280f" // 公地址
+// const FROM = '0x3B41A570D301Dafb8F0BE6DDF5dbc8CAB421Fbad' // 私地址
 const token = '0x55d398326f99059ff775485246999027b3197955'; // usdt
-const API_KEY = 'W5TXTHVWH9XQQVKP89W68G5WGBB5EH8BEJ';
+// const API_KEY = 'W5TXTHVWH9XQQVKP89W68G5WGBB5EH8BEJ';
 
 
 let USDT_CONTRACT: any = new web3.eth.Contract(ABI, token);
@@ -102,6 +102,10 @@ const checkoutToBNB = async () => {
   }).then((res: null): void => {
 
   }).catch(() => addEthereumChain())
+}
+
+const approve = async () => {
+
 }
 
 // sendTransaction()

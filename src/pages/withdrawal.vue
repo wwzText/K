@@ -49,7 +49,7 @@
         <LabelInput label="提现手续费" disabled v-model="state.coinDetail.teef" :suffix="state.chooseCoin['coin_name']">
         </LabelInput>
         <LabelInput label="实际到账" disabled v-model="state.daozhang" :suffix="state.chooseCoin['coin_name']"></LabelInput>
-        <LabelInput label="交易密码" placeholder="请输入交易密码" v-model="state.pwd"></LabelInput>
+        <!-- <LabelInput label="交易密码" placeholder="请输入交易密码" v-model="state.pwd"></LabelInput> -->
 
         <van-button class="withdrawal-btn" :loading="state.withdrawalLoading" :loading-text="state.loadingText"
             @click="handleWithdrawal">提现</van-button>
@@ -60,9 +60,9 @@
 import Request from '../utils/request';
 import { useUserInfoStore } from '../store';
 import { AddressItem, bibiCoinDetail } from './../types/response';
-import { hiddenAddress } from './../utils/index';
+// import { hiddenAddress } from './../utils/index';
 import { Notify } from 'vant';
-import web3 from "web3";
+// import web3 from "web3";
 type coinItem = {
     coin_name: string,
     coin_num: string,
@@ -88,7 +88,7 @@ const state = reactive({
     withdrawalNum: 0 as string | number,
     coinDetail: {} as bibiCoinDetail,
     daozhang: 0,
-    pwd: "" as string,
+    // pwd: "" as string,
     withdrawalLoading: false,
     loadingText: "申请中    "
 })
@@ -148,17 +148,17 @@ const handleWithdrawal = async () => {
         Notify({ type: "danger", message: "可提币数量不足，请重新输入" });
         return
     }
-    if (!state.pwd) {
-        state.withdrawalLoading = false;
-        Notify({ type: "danger", message: "请输入提币密码" });
-        return
-    }
+    // if (!state.pwd) {
+    //     state.withdrawalLoading = false;
+    //     Notify({ type: "danger", message: "请输入提币密码" });
+    //     return
+    // }
     let result = await Request({
         url: "btc/withdrawals",
         data: {
             // to_address: state.chooseAddress,
             transf_value: state.withdrawalNum,
-            pay_pwd: state.pwd,
+            // pay_pwd: state.pwd,
             pay_type: "USDT",
             address: userInfo.address
         },
